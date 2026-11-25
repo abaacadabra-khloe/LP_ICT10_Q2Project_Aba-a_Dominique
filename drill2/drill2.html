@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literature Club</title>
+    
+    <!-- PyScript CSS Core -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- PyScript JS -->
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+
+    <!-- Embedded CSS Styles -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0b0e14;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .reactor {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px auto;
+            border-radius: 50%;
+            background: radial-gradient(circle, #38bdf8 0%, #0284c7 60%, transparent 100%);
+            box-shadow: 0 0 25px #0284c7, 0 0 50px #0284c7;
+            animation: pulse 2.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 15px #0284c7, 0 0 30px #0284c7;
+            }
+            100% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px #38bdf8, 0 0 60px #38bdf8;
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            letter-spacing: 1px;
+        }
+
+        main {
+            background: #151c28;
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            background-color: #0b0e14;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #f8fafc;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        input[type="text"]::placeholder {
+            color: #64748b;
+        }
+
+        input[type="button"] {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        input[type="button"]:hover {
+            background: linear-gradient(135deg, #38bdf8, #3b82f6);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+            transform: translateY(-2px);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(0);
+        }
+
+        #result {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: 600;
+            min-height: 2rem;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="reactor"></div>
+        <h1>Literature Club</h1>
+        <p>This club is full of amazing people</p>
+    </header>
+    
+    <main>
+        <form onsubmit="return false;">
+            <input type="text" id="first_name" placeholder="Enter first name">
+            <input type="text" id="last_name" placeholder="Enter last name">
+            <input type="button" py-click="candidate_checker" value="Enter">
+        </form>
+        <div id="result"></div>
+    </main>
+
+    <!-- Embedded Python Script -->
+    <script type="py">
+        from pyscript import document
+
+        def candidate_checker(e):
+            club_members = [
+                "jorjor well", 
+                "john politics", 
+                "doris duinoa", 
+                "edgar allan poe", 
+                "suwako moriya"
+            ]         
+
+            f_name = document.getElementById('first_name').value.strip()
+            l_name = document.getElementById('last_name').value.strip()
+            
+            candidate = f_name + " " + l_name
+            member_checker = candidate.lower() in club_members
+
+            messages = (
+                f'Sorry {candidate}, your name is not on the list.', 
+                f'Congratulations! {candidate}, you are part of the Literature Club.'
+            )
+
+            document.getElementById('result').innerHTML = messages[member_checker]
+    </script>
+</body>
+</html>
